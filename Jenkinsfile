@@ -31,6 +31,7 @@ pipeline {
                
          stage("Build"){
             steps{
+                echo "Compiling with ${env.JAVA_HOME}"
                 sh " mvn clean install"
             }
         }
