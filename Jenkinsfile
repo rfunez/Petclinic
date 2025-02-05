@@ -62,7 +62,7 @@ pipeline {
             steps{
                 
                 sh "mkdir -p ${env.dest}"
-                sh "cp  ${env.WORKSPACE}/petclinic.war ${env.dest}"
+                sh "cp  ${env.WORKSPACE}/target/petclinic.war ${env.dest}"
             }
         }
     }
