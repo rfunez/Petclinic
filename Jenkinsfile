@@ -51,7 +51,7 @@ pipeline {
         
         stage("TRIVY"){
             steps{
-                sh "id -u"
+                sh "whoami"
                 sh " trivy image rfunez/pet-clinic123:latest"
             }
         }
