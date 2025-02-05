@@ -57,7 +57,8 @@ pipeline {
         
         stage("Deploy To Tomcat"){
             steps{
-                sh "cp  /var/lib/jenkins/workspace/CI-CD/target/petclinic.war /opt/apache-tomcat-9.0.65/webapps/ "
+                mkdir -p /opt/apache-tomcat-9.0.65/webapps/
+                sh "cp  /home/jenkins/agent/workspace/${env.JOB_NAME}_{env.BRANCH_NAME}/petclinic.war /opt/apache-tomcat-9.0.65/webapps/ "
             }
         }
     }
