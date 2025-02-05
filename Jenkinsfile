@@ -42,8 +42,8 @@ pipeline {
                    withDockerRegistry(credentialsId: 'docker-registry', toolName: 'docker') {
                         
                         sh "docker build -t image1 ."
-                        sh "docker tag image1 adijaiswal/pet-clinic123:latest "
-                        sh "docker push adijaiswal/pet-clinic123:latest "
+                        sh "docker tag image1 rfunez/pet-clinic123:latest "
+                        sh "docker push rfunez/pet-clinic123:latest "
                     }
                 }
             }
