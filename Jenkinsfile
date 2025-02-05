@@ -2,7 +2,7 @@ pipeline {
     agent any 
     
     tools{
-        jdk 'jdk11'
+        jdk 'jdk18'
         maven 'maven'
     }
     
@@ -11,7 +11,6 @@ pipeline {
     }
     
     stages{
-        
         stage("Git Checkout"){
             steps{
                 git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Petclinic.git'
@@ -32,6 +31,7 @@ pipeline {
                
          stage("Build"){
             steps{
+                echo "Compiling with ${env.JAVA_HOME}"
                 sh " mvn clean install"
             }
         }
