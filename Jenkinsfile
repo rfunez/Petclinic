@@ -12,7 +12,9 @@ pipeline {
     
     stages{
         stage("Build"){
-            echo "Compiling with ${env.JAVA_HOME}"
+            steps{
+                 echo "Compiling with ${env.JAVA_HOME}"
+            }
         }
         stage("Git Checkout"){
             steps{
