@@ -6,20 +6,29 @@ pipeline {
                 choice choices: ['jdk11', 'jdk18'], name: 'jdk_version'
     }
      stages{
-         stage('Build') {
+         stage('Build java 11') {
+            when {
+                 environment name: 'jdk_version', value: 'jdk11'
+            }
             tools{
                 maven
-                script {
-                    if ($params.jdk_version == 'jdk11') {
-                        return jdk11
-                    }
-                    else {
-                        return jdk18
-                    }
-                }
+                jdk11
             }
             steps {
-                 echo 'Building with ${params.jdk_version}'
+                 echo 'Building with java11'
+                 sh 'mvn clean install'
+            }
+         }
+         stage('Build java 18') {
+            when {
+                 environment name: 'jdk_version', value: 'jdk18'
+            }
+            tools{
+                maven
+                jdk18
+            }
+            steps {
+                 echo 'Building with java18'
                  sh 'mvn clean install'
             }
          }
