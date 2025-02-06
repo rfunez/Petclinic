@@ -2,11 +2,11 @@ pipeline {
     agent{
         label 'agent1'
     }
+    parameters {
+                choice choices: ['jdk11', 'jdk18'], name: 'jdk_version'
+    }
      stages{
          stage('Build') {
-            parameters {
-                      choice choices: ['jdk11', 'jdk18'], name: 'jdk_version'
-            }
             tools{
                 maven
                 ${params.jdk_version}
