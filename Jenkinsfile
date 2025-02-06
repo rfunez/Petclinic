@@ -6,7 +6,7 @@ pipeline {
          stage('Build app') {
             tools{
                 maven 'maven'
-                jdk '${params.jdk_version}'
+                jdk '${jdk_version}'
             }
             steps {
                  echo 'Building with java11'
