@@ -7,9 +7,9 @@ pipeline {
     }
      stages{
          stage('Build java 11') {
-            when {
+            /*when {
                  environment name: 'jdk_version', value: 'jdk11'
-            }
+            }*/
             tools{
                 maven
                 jdk11
@@ -19,7 +19,7 @@ pipeline {
                  sh 'mvn clean install'
             }
          }
-         stage('Build java 18') {
+         /*stage('Build java 18') {
             when {
                  environment name: 'jdk_version', value: 'jdk18'
             }
@@ -31,7 +31,7 @@ pipeline {
                  echo 'Building with java18'
                  sh 'mvn clean install'
             }
-         }
+         }*/
          stage('Stash compiled') {
             steps {
                 echo "Stashing compiled"
