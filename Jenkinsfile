@@ -1,9 +1,6 @@
 pipeline {
     agent none
 
-    triggers {
-            upstream 'PetClinicBuild'
-    }
     stages{
         stage('Unstash') {
             steps {
