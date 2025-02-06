@@ -9,7 +9,14 @@ pipeline {
          stage('Build') {
             tools{
                 maven
-                ${params.jdk_version}
+                script {
+                    if ($params.jdk_version == 'jdk11') {
+                        return jdk11
+                    }
+                    else {
+                        return jdk18
+                    }
+                }
             }
             steps {
                  echo 'Building with ${params.jdk_version}'
