@@ -3,17 +3,15 @@ pipeline {
         label 'agent1'
     }
      stages{
-        stage('test') {
+        stage('Check param') {
             steps {
-                echo 'Parametro1: ${params.jdk_version}'
-                echo 'Parametro2: ${env.jdk_version}'
-                echo 'Parametro3: ${jdk_version}'
+                echo "Parametro1: ${params.jdk_version}"
             }
         }
-         /*stage('Build app') {
+         stage('Build app') {
             tools{
                 maven 'maven'
-                jdk '${env.jdk_version}'
+                jdk "${params.jdk_version}"
             }
             steps {
                  echo 'Building with java11'
@@ -25,7 +23,7 @@ pipeline {
                 echo "Stashing compiled"
                 stash includes: '**/target/*.war', name: 'compiled'
             }
-         }*/
+         }
      }
      post {
           success {
