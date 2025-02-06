@@ -3,11 +3,11 @@ pipeline {
         label 'agent1'
     }
      stages{
-        stage('Check param') {
+         stage('Check param') {
             steps {
                 echo "Parametro1: ${params.jdk_version}"
             }
-        }
+         }
          stage('Build app') {
             tools{
                 maven 'maven'
@@ -30,5 +30,4 @@ pipeline {
                  echo 'Build completed ok'
           }
      }
-
 }
