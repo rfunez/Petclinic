@@ -1,69 +1,35 @@
 pipeline {
-    agent any 
-    
-    tools{
-        jdk 'jdk18'
-        maven 'maven'
+    agent none
+
+    triggers {
+            upstream 'PetClinicBuild'
     }
-    
-    environment {
-        SCANNER_HOME=tool 'sonar-scanner'
-    }
-    
     stages{
-        stage("Git Checkout"){
-            steps{
-                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/jaiswaladi246/Petclinic.git'
+        stage('Unstash') {
+            steps {
+                 echo 'Unstashing compiled'
+                 unstash 'compiled'
             }
         }
-        
-        stage("Compile"){
-            steps{
-                sh "mvn clean compile"
-            }
-        }
-        
-         stage("Test Cases"){
-            steps{
-                sh "mvn test"
-            }
-        }
-               
-         stage("Build"){
-            steps{
-                echo "Compiling with ${env.JAVA_HOME}"
-                sh " mvn clean install"
-            }
-        }
-        
-        stage("Docker Build & Push"){
-            steps{
-                script{
-                   withDockerRegistry(credentialsId: 'docker-registry', toolName: 'docker') {
-                        
-                        sh "docker build -t image1 ."
-                        sh "docker tag image1 rfunez/pet-clinic123:latest "
-                        sh "docker push rfunez/pet-clinic123:latest "
-                    }
+        stage('Build image and app') {
+            agent {
+                dockerfile {
+                          additionalBuildArgs '-t petclinic:1.0.0'
+                          args '--port 8082:8082 --name petclinic-app --hostname petclinic petclinic:1.0.0'
+                          filename 'Dockerfile'
                 }
             }
-        }
-        
-        stage("TRIVY"){
-            steps{
-                sh " trivy image rfunez/pet-clinic123:latest"
+            steps {
+                sh 'ps -fu java'
             }
         }
-        
-        stage("Deploy To Tomcat"){
-            environment {
-                        dest = "$HOME/tomcat9.0/webapps"
-            }
-            steps{
-                
-                sh "mkdir -p ${env.dest}"
-                sh "cp  ${env.WORKSPACE}/target/petclinic.war ${env.dest}"
+        stage('Check app') {
+            steps {
+                sh 'docker image ls | grep petclinic'
+                sh 'docker ps | grep petclinic'
             }
         }
     }
+    
+               
 }
